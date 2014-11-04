@@ -4,10 +4,13 @@
 #ifndef _UNICODE
 #define _UNICODE
 #endif
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
 #include <windowsx.h>
+
+#include <string.h>
 
 #define CLASSNAME L"sjis2hxs"
 
@@ -27,7 +30,7 @@ void convertAndCopy(HWND wnd)
     if(inLen == 1)
         return;
 
-    txtIn = (WCHAR*)HeapAlloc(hHeap, HEAP_ZERO_MEMORY, inLen * sizeof(WCHAR));
+    txtIn = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, inLen * sizeof(WCHAR));
     Edit_GetText(wnd, txtIn, inLen);
     Edit_SetText(wnd, NULL);
 
@@ -47,7 +50,7 @@ void convertAndCopy(HWND wnd)
     }
 
     mbLen += 1;
-    txtMb = (CHAR*)HeapAlloc(hHeap, HEAP_ZERO_MEMORY, mbLen);
+    txtMb = HeapAlloc(hHeap, HEAP_ZERO_MEMORY, mbLen);
 
     if(!WideCharToMultiByte(
         932,
@@ -66,7 +69,7 @@ void convertAndCopy(HWND wnd)
     if(hGlob == NULL)
         goto out_free_mb_str;
 
-    txtOut = (WCHAR*)GlobalLock(hGlob);
+    txtOut = GlobalLock(hGlob);
 
     {
         int i;
@@ -154,18 +157,12 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE pi, LPWSTR lpCmdLn, int nCmdShow)
 
     {
         WNDCLASSEXW wc;
-        wc.cbSize = sizeof(wc);
+        memset(&wc, 0, sizeof(WNDCLASSEXW));
         wc.style = CS_HREDRAW | CS_VREDRAW ;
         wc.lpfnWndProc = WndProc;
-        wc.cbClsExtra = 0;
-        wc.cbWndExtra = 0;
         wc.hInstance = hi;
-        wc.hIcon = NULL;
-        wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-        wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-        wc.lpszMenuName = NULL;
+        wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);
         wc.lpszClassName = CLASSNAME;
-        wc.hIconSm = NULL;
 
         RegisterClassExW(&wc);
     }
