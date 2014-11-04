@@ -158,6 +158,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE pi, LPWSTR lpCmdLn, int nCmdShow)
     {
         WNDCLASSEXW wc;
         memset(&wc, 0, sizeof(WNDCLASSEXW));
+        wc.cbSize = sizeof(WNDCLASSEXW);
         wc.style = CS_HREDRAW | CS_VREDRAW ;
         wc.lpfnWndProc = WndProc;
         wc.hInstance = hi;
