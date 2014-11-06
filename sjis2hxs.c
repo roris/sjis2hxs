@@ -146,7 +146,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
                 NULL,
                 NULL);
 
-            SendMessageW(hTxt, EM_LIMITTEXT, 80, NULL);
+            SendMessageW(hTxt, EM_LIMITTEXT, 80, 0);
             oldWndProc = (WNDPROC)SetWindowLongPtrW(hTxt, GWLP_WNDPROC, (LONG_PTR)newWndProc);
 
             hStat = CreateWindowW(
