@@ -79,7 +79,7 @@ void convertAndCopy(HWND wnd)
         HeapFree(hHeap, 0, outStr);
     }
 
-    clipStr = GlobalAlloc(GMEM_MOVEABLE, (len * 4 + 2) * sizeof(WCHAR));
+    clipStr = GlobalAlloc(GMEM_MOVEABLE, (len * 4 + 3) * sizeof(WCHAR));
 
 
     {
@@ -140,12 +140,13 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
                 10,
                 10,
                 470,
-                25,
+                20,
                 wnd,
                 NULL,
                 NULL,
                 NULL);
 
+            SendMessageW(hTxt, EM_LIMITTEXT, 80, NULL);
             oldWndProc = (WNDPROC)SetWindowLongPtrW(hTxt, GWLP_WNDPROC, (LONG_PTR)newWndProc);
 
             hStat = CreateWindowW(
@@ -155,7 +156,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp)
                 10,
                 40,
                 470,
-                20,
+                50,
                 wnd,
                 NULL,
                 NULL,
@@ -201,7 +202,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE pi, LPWSTR lpCmdLn, int nCmdShow)
         CW_USEDEFAULT,
         CW_USEDEFAULT,
         500,
-        90,
+        120,
         NULL,
         NULL,
         hi,
